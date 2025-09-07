@@ -1,0 +1,9 @@
+streamlit>=1.35
+python-dotenv>=1.0
+requests>=2.32
+google-generativeai>=0.7
+folium>=0.16
+streamlit-folium>=0.20
+sentry-sdk>=2.0
+supabase>=2.6
+
