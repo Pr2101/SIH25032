@@ -1,16 +1,3 @@
-Step 6 — Place detail, routes & view
-
-1) In Streamlit → Explore Places, after fetching places, click Details on a card.
-2) Server calls `place-detail` to fetch/cache long description via Gemini; UI shows route and map view links.
-3) Click “Save Offline (JSON)” to download text + image URLs.
-
-Step 5 — Nearby places & sorting
-
-1) In Streamlit → Nearby: enter your coordinates (or defaults), choose filters and sort.
-2) Results are ranked by Haversine distance on client; you can filter by type and radius.
-3) Save to wishlist requires your auth `user_id`. It upserts into `wishlists.place_ids`.
-4) For server-keyed wishlist actions in Streamlit, set `SUPABASE_SERVICE_ROLE_KEY` temporarily for local testing only.
-
 Smart Tourism Platform (Prototype) for Jharkhand
 
 Overview
@@ -84,6 +71,20 @@ Run the Prototype
 
    - .\.venv\Scripts\activate
    - streamlit run app/streamlit_app.py
+  
+Step 1 — Supabase provisioning & basic auth (local)
+
+1) Start Supabase: supabase start
+2) Apply schema: supabase db reset (or supabase db push) to run migrations in supabase/migrations
+3) Serve Edge Functions: supabase functions serve --env-file ../.env (in supabase/functions)
+4) Test role-based register endpoint:
+
+   - curl -X POST http://localhost:54321/functions/v1/register -H "Content-Type: application/json" -d '{"email":"user1@example.com","password":"Passw0rd!","name":"User One","role":"user"}'
+
+5) Create test users via Node:
+
+   - npm i node-fetch dotenv
+   - node server/create_test_users.js
 
 Step 2 — Artisan onboarding & marketplace data model
 
@@ -109,20 +110,19 @@ Step 4 — Festival calendar & hover preview (prototype)
 2) In Streamlit → Explore Places, click "Fetch Festivals for State" after choosing a state.
 3) Festivals appear in a list (expanders). A calendar widget can be added later or integrated with a React client.
 
+Step 5 — Nearby places & sorting
 
-Step 1 — Supabase provisioning & basic auth (local)
+1) In Streamlit → Nearby: enter your coordinates (or defaults), choose filters and sort.
+2) Results are ranked by Haversine distance on client; you can filter by type and radius.
+3) Save to wishlist requires your auth `user_id`. It upserts into `wishlists.place_ids`.
+4) For server-keyed wishlist actions in Streamlit, set `SUPABASE_SERVICE_ROLE_KEY` temporarily for local testing only.
+   
+Step 6 — Place detail, routes & view
 
-1) Start Supabase: supabase start
-2) Apply schema: supabase db reset (or supabase db push) to run migrations in supabase/migrations
-3) Serve Edge Functions: supabase functions serve --env-file ../.env (in supabase/functions)
-4) Test role-based register endpoint:
+1) In Streamlit → Explore Places, after fetching places, click Details on a card.
+2) Server calls `place-detail` to fetch/cache long description via Gemini; UI shows route and map view links.
+3) Click “Save Offline (JSON)” to download text + image URLs.
 
-   - curl -X POST http://localhost:54321/functions/v1/register -H "Content-Type: application/json" -d '{"email":"user1@example.com","password":"Passw0rd!","name":"User One","role":"user"}'
-
-5) Create test users via Node:
-
-   - npm i node-fetch dotenv
-   - node server/create_test_users.js
 
 Configuration Notes
 
