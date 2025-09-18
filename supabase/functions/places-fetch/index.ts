@@ -92,6 +92,29 @@ serve(async (req) => {
 
   const { state } = await req.json().catch(() => ({ state: 'Jharkhand' }));
   console.log('[places-fetch] requested state:', state);
+
+  // Check if we have cached places for this state (within last 24 hours)
+  const cacheThreshold = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+  const cachedPlaces = await fetch(`${url}/rest/v1/places?state=eq.${state}&gemini_cached_at=gte.${cacheThreshold}&select=*`, {
+    headers: { 'Authorization': `Bearer ${key}`, 'apiKey': key }
+  });
+  
+  if (cachedPlaces.ok) {
+    const cached = await cachedPlaces.json();
+    if (cached && cached.length > 0) {
+      console.log(`[places-fetch] returning ${cached.length} cached places for ${state}`);
+      return new Response(JSON.stringify({ 
+        state, 
+        places: cached, 
+        cached: true, 
+        count: cached.length 
+      }), { 
+        headers: { 'content-type': 'application/json', ...corsHeaders } 
+      });
+    }
+  }
+
+  console.log('[places-fetch] no valid cache found, calling Gemini');
   let places: Place[] = [];
   try {
     places = await callGemini(state);

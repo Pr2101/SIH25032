@@ -63,7 +63,7 @@ serve(async (req) => {
   if (!place) return new Response('Not found', { status: 404, headers: { ...cors } });
 
   let gemini: any = {};
-  if (!place.long_desc) {
+  try {
     gemini = await callGemini(place.name, place.state || state || '');
     const upd = await fetch(`${url}/rest/v1/places?place_id=eq.${place_id}`, {
       method: 'PATCH',
@@ -71,9 +71,10 @@ serve(async (req) => {
       body: JSON.stringify({ long_desc: gemini.long_desc || place.long_desc })
     });
     if (upd.ok) place.long_desc = gemini.long_desc || place.long_desc;
-  } else {
-    // still get structured info, but do not overwrite cached long_desc
-    gemini = await callGemini(place.name, place.state || state || '');
+  } catch (error) {
+    console.error('[place-detail] Gemini error:', error);
+    // Return basic place info even if Gemini fails
+    gemini = {};
   }
 
   return new Response(JSON.stringify({ ...place, gemini }), { headers: { 'content-type': 'application/json', ...cors } });

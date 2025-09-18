@@ -5,8 +5,10 @@ import Explore from './pages/Explore'
 import Nearby from './pages/Nearby'
 import Place from './pages/Place'
 import Chat from './pages/Chat'
+import GuideChat from './pages/GuideChat'
 import Login from './pages/Login'
 import Marketplace from './pages/Marketplace'
+import Calendar from './pages/Calendar'
 import Navigation from './components/Navigation'
 import { isSupabaseConfigured } from './lib/supabase'
 import { AuthProvider, useAuth } from './lib/auth'
@@ -28,7 +30,9 @@ function App() {
               <Route path="/" element={<Login/>} />
               <Route path="/home" element={<Protected><Explore/></Protected>} />
               <Route path="/nearby" element={<Protected><Nearby/></Protected>} />
+              <Route path="/calendar" element={<Protected><Calendar/></Protected>} />
               <Route path="/chat" element={<Protected><Chat/></Protected>} />
+              <Route path="/guide-chat" element={<Protected><GuideChat/></Protected>} />
               <Route path="/marketplace" element={<Protected><Marketplace/></Protected>} />
               <Route path="/place/:id" element={<Protected><Place/></Protected>} />
               <Route path="/login" element={<Login/>} />

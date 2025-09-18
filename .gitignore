@@ -17,7 +17,7 @@ yarn-error.log*
 build/
 out/
 
-# Env
+# Envn
 .env
 .env.*
 
