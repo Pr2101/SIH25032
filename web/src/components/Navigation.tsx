@@ -47,7 +47,7 @@ export default function Navigation() {
             {chatDropdownOpen && (
               <div id="chat-dropdown-menu" className="dropdown-menu" style={{ position: 'absolute', top: '100%', left: 0, zIndex: 1000, background: "rgba(0, 0, 200, 0.5)", width: '120px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', borderRadius: '4px', padding: '10px' }}>
                 <Link to="/guide-chat" onClick={() => setChatDropdownOpen(false)}>Guide Chat</Link> <br />
-                <a href="/Gemini-Landmark-Description-App/GeminiLandmarkApp/index.html" target="_blank" rel="noopener noreferrer" onClick={() => setChatDropdownOpen(false)}>Info Chat</a>
+                <a href="https://gemini-landmark-description.onrender.com/" target="_blank" rel="noopener noreferrer" onClick={() => setChatDropdownOpen(false)}>Info Chat</a>
                 {/* <a href="/Gemini-Landmark-Description-App/GeminiLandmarkApp/index.html">Info Chat</a> */}
               </div>
             )}
